@@ -23,13 +23,23 @@ class FrequenciaActivity : AppCompatActivity() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             requestPermissions(arrayOf(android.Manifest.permission.POST_NOTIFICATIONS), 100)
         }
+        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            if (!alarmManager.canScheduleExactAlarms()) {
+                Toast.makeText(this, "Permita alarmes exatos nas configurações", Toast.LENGTH_LONG).show()
+                startActivity(Intent().apply {
+                    action = Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM
+                })
+            }
+        }
 
         val textViewInfo = findViewById<TextView>(R.id.textViewInfoFrequencia)
         val buttonSelecionarHorario = findViewById<Button>(R.id.buttonSelecionarHorario)
         val buttonFinalizar = findViewById<Button>(R.id.buttonFinalizar)
         textViewHorarioSelecionado = findViewById(R.id.textViewHorarioSelecionado)
 
-        textViewInfo.text = "Configurar horário do seu medicamento"
+        textViewInfo.text = "Informações do medicamento"
 
         buttonSelecionarHorario.setOnClickListener {
             abrirTimePicker()
@@ -39,7 +49,7 @@ class FrequenciaActivity : AppCompatActivity() {
             agendarAlarme()
         }
     }
-
+     //Abre o relógio//
     private fun abrirTimePicker() {
         val calendario = Calendar.getInstance()
         val horaAtual = calendario.get(Calendar.HOUR_OF_DAY)

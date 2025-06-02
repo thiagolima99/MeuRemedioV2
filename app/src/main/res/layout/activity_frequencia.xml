@@ -58,7 +58,7 @@
         android:id="@+id/editTextFrequencia"
         android:layout_width="379dp"
         android:layout_height="wrap_content"
-        android:hint="Digite a frequência (ex.: 8 em 8 horas)"
+        android:hint="Digite a frequência (ex.: 6 em 6 horas)"
         android:inputType="text"
         android:minHeight="48dp"
         android:textColor="#EDE4E4"

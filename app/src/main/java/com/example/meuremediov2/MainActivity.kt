@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 class MainActivity : AppCompatActivity() {
 
     companion object {
-        const val EXTRA_NOME_MEDICAMENTO = "com.example.meuremediov2.NOME_MEDICAMENTO"
+        const val EXTRA_NOME_MEDICAMENTO = "NOME_MEDICAMENTO"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,23 +20,21 @@ class MainActivity : AppCompatActivity() {
 
         val tipo = intent.getStringExtra(TelaInicial.EXTRA_TIPO_MEDICAMENTO)
 
-        val textViewTipo = findViewById<TextView>(R.id.textViewTipoSelecionadoInfo)
-        val editTextNome = findViewById<EditText>(R.id.editTextNomeMedicamento)
-        val buttonProximo = findViewById<Button>(R.id.buttonProximoMain)
+        findViewById<TextView>(R.id.textViewTipoSelecionadoInfo).text =
+            "Tipo: ${tipo ?: "Não informado"}"
 
-        textViewTipo.text = "Tipo selecionado: ${tipo ?: "Não informado"}"
+        val nomeInput = findViewById<EditText>(R.id.editTextNomeMedicamento)
 
-        buttonProximo.setOnClickListener {
-            val nome = editTextNome.text.toString().trim()
-
-            if (nome.isEmpty()) {
-                Toast.makeText(this, "Digite o nome do medicamento!", Toast.LENGTH_SHORT).show()
-            } else {
+        findViewById<Button>(R.id.buttonProximoMain).setOnClickListener {
+            val nome = nomeInput.text.toString().trim()
+            if (nome.isNotEmpty()) {
                 val intent = Intent(this, FrequenciaActivity::class.java).apply {
                     putExtra(EXTRA_NOME_MEDICAMENTO, nome)
                     putExtra(TelaInicial.EXTRA_TIPO_MEDICAMENTO, tipo)
                 }
                 startActivity(intent)
+            } else {
+                Toast.makeText(this, "Digite o nome do medicamento!", Toast.LENGTH_SHORT).show()
             }
         }
     }

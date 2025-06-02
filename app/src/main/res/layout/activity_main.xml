@@ -78,6 +78,7 @@
         android:layout_marginTop="20dp"
         android:hint="Digite o nome do medicamento"
         android:inputType="text"
+        android:minHeight="48dp"
         android:textColorHint="#DDD7D7"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
