@@ -52,6 +52,8 @@ class FrequenciaActivity : AppCompatActivity() {
 
         buttonFinalizar.setOnClickListener {
             agendarAlarme()
+            val intent = Intent(this, TelaInicial::class.java)
+            startActivity(intent)
             finish()
         }
     }

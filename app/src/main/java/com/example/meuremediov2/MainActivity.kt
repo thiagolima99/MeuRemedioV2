@@ -11,8 +11,6 @@ import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
 
-    private var ringtone: Ringtone? = null
-
     companion object {
         const val EXTRA_NOME_MEDICAMENTO = "NOME_MEDICAMENTO"
         const val EXTRA_TIPO_MEDICAMENTO = "TIPO_MEDICAMENTO"
@@ -42,15 +40,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        findViewById<Button>(R.id.buttonPararAlarme).setOnClickListener {
-            AlarmeController.pararSom()
-            pararSom()
-        }
     }
-    //Para o alarme//
-    private fun pararSom() {
-            ringtone?.stop()
-            Toast.makeText(this, "Alarme desligado", Toast.LENGTH_SHORT).show()
-        }
-    }
+}
 

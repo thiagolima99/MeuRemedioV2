@@ -31,6 +31,7 @@
         android:layout_height="wrap_content"
         android:backgroundTint="#33B418"
         android:text="Comprimido"
+        android:textAlignment="center"
         android:textColor="#121010"
         app:icon="@drawable/comprimido"
         app:iconTint="#161515"
@@ -39,7 +40,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.562" />
+        app:layout_constraintVertical_bias="0.568" />
 
     <Button
         android:id="@+id/buttonGotas"
@@ -47,6 +48,7 @@
         android:layout_height="wrap_content"
         android:backgroundTint="#33B418"
         android:text="Gotas"
+        android:textAlignment="center"
         android:textColor="#100F0F"
         app:icon="@drawable/gotas"
         app:iconTint="#101010"
@@ -55,7 +57,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.667" />
+        app:layout_constraintVertical_bias="0.664" />
 
     <Button
         android:id="@+id/buttonInalacao"
@@ -63,6 +65,7 @@
         android:layout_height="wrap_content"
         android:backgroundTint="#33B418"
         android:text="Inalação"
+        android:textAlignment="center"
         android:textColor="#161414"
         app:icon="@drawable/inalador"
         app:iconTint="#0B0B0B"
@@ -80,6 +83,7 @@
         android:layout_marginTop="62dp"
         android:backgroundTint="#33B418"
         android:text="Injeção"
+        android:textAlignment="center"
         android:textColor="#070606"
         app:icon="@drawable/injecao"
         app:iconTint="#0E0E0E"
@@ -88,6 +92,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/buttonInalacao"
         app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/buttonPararAlarme"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:backgroundTint="#33B418"
+        android:text="Parar Alarme"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.97" />
 
     <TextView
         android:id="@+id/textView2"

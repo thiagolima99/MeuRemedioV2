@@ -3,6 +3,7 @@ package com.example.meuremediov2
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
 class TelaInicial : AppCompatActivity() {
@@ -16,9 +17,10 @@ class TelaInicial : AppCompatActivity() {
         setContentView(R.layout.activity_tela_inicial)
 
         val buttonComprimido = findViewById<Button>(R.id.buttonComprimido)
-        val buttonGotas = findViewById<Button>(R.id.buttonGotas     )
+        val buttonGotas = findViewById<Button>(R.id.buttonGotas)
         val buttonInalacao = findViewById<Button>(R.id.buttonInalacao)
         val buttonInjecao = findViewById<Button>(R.id.buttonInjecao)
+        val buttonPararAlarme = findViewById<Button>(R.id.buttonPararAlarme)
 
         buttonComprimido.setOnClickListener {
             navegarParaMain("Comprimido")
@@ -35,6 +37,16 @@ class TelaInicial : AppCompatActivity() {
         buttonInjecao.setOnClickListener {
             navegarParaMain("Injeção")
         }
+
+        buttonPararAlarme.setOnClickListener {
+            pararSom()
+        }
+    }
+
+    // Desliga o alarme
+    private fun pararSom() {
+        AlarmeController.pararSom()
+        Toast.makeText(this, "Alarme desligado", Toast.LENGTH_SHORT).show()
     }
 
     private fun navegarParaMain(tipoMedicamento: String) {
