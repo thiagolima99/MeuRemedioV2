@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 class TelaInicial : AppCompatActivity() {
 
     companion object {
-        const val EXTRA_TIPO_MEDICAMENTO = "com.example.meuremediov2.TIPO_MEDICAMENTO"
+        const val EXTRA_TIPO_MEDICAMENTO = "TIPO_MEDICAMENTO"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
