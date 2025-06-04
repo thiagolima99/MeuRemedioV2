@@ -6,6 +6,7 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
+
 class TelaInicial : AppCompatActivity() {
 
     companion object {
@@ -16,6 +17,7 @@ class TelaInicial : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_tela_inicial)
 
+        val buttonListaMedicamentos = findViewById<Button>(R.id.buttonListaMedicamentos)
         val buttonComprimido = findViewById<Button>(R.id.buttonComprimido)
         val buttonGotas = findViewById<Button>(R.id.buttonGotas)
         val buttonInalacao = findViewById<Button>(R.id.buttonInalacao)
@@ -40,6 +42,11 @@ class TelaInicial : AppCompatActivity() {
 
         buttonPararAlarme.setOnClickListener {
             pararSom()
+        }
+
+        buttonListaMedicamentos.setOnClickListener {
+            val intent = Intent(this, ListaMedicamentos::class.java)
+            startActivity(intent)
         }
     }
 

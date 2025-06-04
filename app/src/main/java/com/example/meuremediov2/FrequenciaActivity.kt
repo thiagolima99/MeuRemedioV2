@@ -1,5 +1,6 @@
 package com.example.meuremediov2
 
+import android.annotation.SuppressLint
 import android.app.*
 import android.content.Context
 import android.content.Intent
@@ -7,7 +8,9 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.widget.*
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import com.example.meuremediov2.data.Medicamento
 import java.util.*
 
 class FrequenciaActivity : AppCompatActivity() {
@@ -16,14 +19,19 @@ class FrequenciaActivity : AppCompatActivity() {
     private lateinit var textViewInfo: TextView
     private var horaSelecionada = -1
     private var minutoSelecionado = -1
-    private lateinit var nomeMedicamento: String
 
+    private lateinit var nomeMedicamento: String
+    private lateinit var tipoMedicamento: String
+
+    //ViewModel do banco de dados
+    private val viewModel: MedicamentoViewModel by viewModels()
+
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_frequencia)
 
-        nomeMedicamento = intent.getStringExtra(MainActivity.EXTRA_NOME_MEDICAMENTO) ?: "Desconhecido"
-        // Permissão para notificação/
+        // ⏰ Permissão para notificação
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             requestPermissions(arrayOf(android.Manifest.permission.POST_NOTIFICATIONS), 100)
         }
@@ -31,7 +39,7 @@ class FrequenciaActivity : AppCompatActivity() {
         val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             if (!alarmManager.canScheduleExactAlarms()) {
-                Toast.makeText(this, "Permita alarmes na configurações", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "Permita alarmes nas configurações", Toast.LENGTH_LONG).show()
                 startActivity(Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM))
             }
         }
@@ -42,22 +50,44 @@ class FrequenciaActivity : AppCompatActivity() {
         val buttonSelecionarHorario = findViewById<Button>(R.id.buttonSelecionarHorario)
         val buttonFinalizar = findViewById<Button>(R.id.buttonFinalizar)
 
-        val nomeMedicamento = intent.getStringExtra(MainActivity.EXTRA_NOME_MEDICAMENTO) ?: "Desconhecido"
-        val tipoMedicamento = intent.getStringExtra(MainActivity.EXTRA_TIPO_MEDICAMENTO) ?: "Desconhecido"
-        textViewInfo.text = "Informações do medicamento:\n\nNome: $nomeMedicamento\nTipo: $tipoMedicamento"
+        nomeMedicamento = intent.getStringExtra(MainActivity.EXTRA_NOME_MEDICAMENTO) ?: "Desconhecido"
+        tipoMedicamento = intent.getStringExtra(MainActivity.EXTRA_TIPO_MEDICAMENTO) ?: "Desconhecido"
 
+        textViewInfo.text = """
+            Informações do medicamento:
+            
+            Nome: $nomeMedicamento
+            Tipo: $tipoMedicamento
+        """.trimIndent()
+
+        // ⏰ Abre o relógio
         buttonSelecionarHorario.setOnClickListener {
             abrirTimePicker()
         }
 
         buttonFinalizar.setOnClickListener {
-            agendarAlarme()
-            val intent = Intent(this, TelaInicial::class.java)
-            startActivity(intent)
-            finish()
+            if (horaSelecionada == -1 || minutoSelecionado == -1) {
+                Toast.makeText(this, "Selecione um horário primeiro!", Toast.LENGTH_SHORT).show()
+            } else {
+                // 🔥 Salva o remédio no banco
+                val medicamento = Medicamento(
+                    nome = nomeMedicamento,
+                    tipo = tipoMedicamento,
+                    frequenciaHoras = 2
+                )
+
+                viewModel.adicionar(medicamento)
+
+                agendarAlarme()
+                Toast.makeText(this, "Medicamento salvo com sucesso!", Toast.LENGTH_SHORT).show()
+                val intent = Intent(this, TelaInicial::class.java)
+                startActivity(intent)
+                finish()
+            }
         }
     }
-    //Abre o relógio//
+
+    // 🕐 Abre o relógio
     private fun abrirTimePicker() {
         val calendario = Calendar.getInstance()
         val horaAtual = calendario.get(Calendar.HOUR_OF_DAY)
@@ -77,18 +107,15 @@ class FrequenciaActivity : AppCompatActivity() {
         timePicker.show()
     }
 
+    // 🔔 Agendar alarme
     private fun agendarAlarme() {
-        if (horaSelecionada == -1 || minutoSelecionado == -1) {
-            Toast.makeText(this, "Selecione um horário primeiro!", Toast.LENGTH_SHORT).show()
-            return
-        }
-
         val calendario = Calendar.getInstance().apply {
             set(Calendar.HOUR_OF_DAY, horaSelecionada)
             set(Calendar.MINUTE, minutoSelecionado)
             set(Calendar.SECOND, 0)
         }
 
+        // Se horário já passou hoje agenda para amanhã
         if (calendario.before(Calendar.getInstance())) {
             calendario.add(Calendar.DATE, 1)
         }
@@ -96,6 +123,7 @@ class FrequenciaActivity : AppCompatActivity() {
         val intent = Intent(this, AlarmeReceiver::class.java).apply {
             putExtra(MainActivity.EXTRA_NOME_MEDICAMENTO, nomeMedicamento)
         }
+
         val pendingIntent = PendingIntent.getBroadcast(
             this,
             1,

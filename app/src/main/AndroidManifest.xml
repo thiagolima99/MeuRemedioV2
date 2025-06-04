@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -15,11 +16,18 @@
         android:theme="@style/Theme.MeuRemedioV2"
         tools:targetApi="31">
         <activity
+            android:name=".ListaMedicamentos"
+            android:exported="false"
+            android:label="@string/title_activity_lista_medicamentos"
+            android:theme="@style/Theme.MeuRemedioV2" />
+        <activity
             android:name=".FrequenciaActivity"
             android:exported="false" />
+
         <receiver
             android:name=".AlarmeReceiver"
-            android:exported="false"/>
+            android:exported="false" />
+
         <activity
             android:name=".TelaInicial"
             android:exported="true">
@@ -31,9 +39,7 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:exported="false">
-        </activity>
+            android:exported="false"></activity>
     </application>
-
 
 </manifest>

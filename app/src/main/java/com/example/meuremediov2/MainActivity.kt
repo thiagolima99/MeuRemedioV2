@@ -1,7 +1,6 @@
 package com.example.meuremediov2
 
 import android.content.Intent
-import android.media.Ringtone
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
